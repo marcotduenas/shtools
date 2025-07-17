@@ -1,0 +1,32 @@
+#!/usr/bin/env sh
+
+########################################################
+# script: sysbkp
+# description: shell util that generate backup files from pre-specified folders
+# author: Marco T.
+# e-mail: marcot.dns@gmail.com
+########################################################
+#set -x
+# Importing the sources file to specify which folders should be turned into backup .tar files
+. ./sources.conf
+
+[ -d "backups" ] && [ -e "backups" ] && printf "backup existe" || mkdir backups && printf "backup criado"
+
+# sysbkp pre-defined variables
+current_date="$(date +%Y-%m-%d)"
+
+case "$1" in
+    -b|--backup)
+        for folder in ${sources[@]}; do
+            folder_base="$(basename $folder)" # removing the "/" from the folder path to create a tar file with the src name
+            tar -C "$(dirname "$folder")" -cf ./backups/"$folder_base-$current_date.tar.gz" "$folder_base"
+        done
+    ;;
+
+    -h|--help|*)
+        printf                                                                                          \
+            "shtools sysbkp:                                                                            \
+            \nmake sure that all the folders that you need to backup are registered in sources.conf\n   \
+            -b, --backup: read the sources.conf file and generates and .tar file\n"                     \
+    ;;
+esac
