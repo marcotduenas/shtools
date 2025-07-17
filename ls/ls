@@ -1,5 +1,13 @@
 #!/usr/bin/env sh
 
+########################################################
+# script: ls
+# description: shell util that replicates the ls command
+# args: -a to show hidden files, -h to more information
+# author: Marco T.
+# e-mail: marcot.dns@gmail.com
+########################################################
+
 
 case "$1" in
     -a|--all)
