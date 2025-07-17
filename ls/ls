@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+
+
+case "$@" in
+	-a|--all)
+		for content in ./* ./.*;do
+			printf "%s\n" "$content"
+		done
+	;;
+
+	-h|--help)
+		printf 																\
+			"shtools ls: 													\
+					\n-a, --all: show all files, including hidden ones\n"	\
+	;;
+
+	*)
+		for content in ./*;do
+			printf "%s\n" "$content"
+		done
+	;;
+esac
