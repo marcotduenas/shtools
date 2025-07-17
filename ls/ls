@@ -1,22 +1,28 @@
 #!/usr/bin/env sh
 
 
-case "$@" in
-	-a|--all)
-		for content in ./* ./.*;do
-			printf "%s\n" "$content"
-		done
-	;;
+case "$1" in
+    -a|--all)
+        for content in ./* ./.*;do
+            if [ "$content" = "." ] || [ "$content" == ".." ];then
+                printf "%s\n" "$content"
+            else
+                content=${content#./}
+                [ -d "$content" ] && printf "%s/\n" "$content" || printf "%s\n" "$content"
+            fi
+        done
+        ;;
 
-	-h|--help)
-		printf 																\
-			"shtools ls: 													\
-					\n-a, --all: show all files, including hidden ones\n"	\
-	;;
+    -h|--help)
+        printf 																\
+            "shtools ls: 													\
+            \n-a, --all: show all files, including hidden ones\n"	\
+            ;;
 
-	*)
-		for content in ./*;do
-			printf "%s\n" "$content"
-		done
-	;;
+    *)
+        for content in ./*;do
+            content=${content#./}
+            [ -d "$content" ] && printf "%s/\n" "$content" || printf "%s\n" "$content"
+        done
+        ;;
 esac
